@@ -8,12 +8,13 @@ class TimerViewModel extends ChangeNotifier {
   Timer? timer;
   Duration duration = Duration.zero;
 
-  void startTime(int initialMinutes) {
+  void startTime(int initialMinutes, ValueNotifier<bool> isPaused) {
     duration = Duration.zero;
     isPlaying = true;
     notifyListeners(); //isso se chama change notifer
 
     timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      if (isPaused.value) return;
       if (duration.inMinutes < initialMinutes) {
         duration += Duration(seconds: 1);
         notifyListeners();
